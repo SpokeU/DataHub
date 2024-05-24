@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Content Management API for Project Integration
+  description: |- 
+    This API provides capabilities for dynamically retrieving and updating project content based on contextual tags.
+    
+    Use case:
+    1. User is talking to LLM model in a chat about the changes to define requirements (or even a code right away!).
+    2. LLM is using Content Management API **Discovery** feature to enrich its context with existing codebase and a documentation to know what you are talking about
+    3. LLM Responds with suggensted ideas/changes as well as tags that it will use for further discovery
+    
+    Example:
+      1. **User** - Project DataHub. I need to send an email to admin after user creates new connection
+      2. **LLM -** Does initial discovery of the project and gets information by calling
+      `GET /discovery/initial?project=DataHub`
+    Response example:
+      
+      ```json
+      {
+      "description": "Developers often need to execute queries on various databases, share these queries with team members, and ensure efficient collaboration on database-related tasks. 
+        Traditional methods of sharing queries (via messaging platforms, documentations, or verbally) are inefficient and prone to errorsProduct owners and business persons are oftern need to view specific data as well.For example: A number of order for previous month, A number of users that logged in at least once in last month etc. 
+        This results in another query that developer creates, saves it somewhere and runs against DB to provide business with results.******DataHub** aims to solve these problems by providing a centralized web platform for managing database connections, sharing queries, executing them, and presenting results in a user-friendly manner.",
+      "tags": [
+        {
+          "tag": "Conventions",
+          "description": "Code conventions on a project"
+        },
+        {
+          "tag": "Connection",
+          "description": "This will return everything related to 'Connection' model (OpenApi spec parts, JPA entities, logic, documentation)"
+        },
+        {
+          "tag": "Query",
+          "description": "Everything related to Query concept (OpenApi spec parts, JPA entities, logic, documentation)"
+        }
+      ]
+    }
+      ```
+      
+      3. LLM - Responds a user with information it got from initial discovery as well as what tags it is planning to use for further discovery
+      4. User - Review the response from LLM
+  version: 1.0.0
+servers:
+  - url: 'https://7f610bm84sn7qokoc.mock.apigit.com'
+    description: Production server
+tags:
+  - name: discovery
+    description: Endpoints for discovering project content
+  - name: content-update
+    description: Endpoints for updating project content
+paths:
+  /discovery/initial:
+    get:
+      operationId: getProjectInfo
+      tags:
+        - discovery
+      summary: Retrieve initial project details and available tags
+      parameters:
+        - in: query
+          name: project
+          required: true
+          schema:
+            type: string
+          description: Project identifier
+      responses:
+        '200':
+          description: Successful retrieval of project details.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectInfo"
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /discovery:
+    get:
+      operationId: discoverProject
+      tags:
+        - discovery
+      summary: Retrieve project content based on tags
+      parameters:
+        - in: query
+          name: project
+          required: true
+          schema:
+            type: string
+          description: Project identifier
+        - in: query
+          name: tags
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of tags to filter the content
+      responses:
+        '200':
+          description: Successful retrieval of content.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContentItem'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /content-update:
+    post:
+      operationId: updateContent
+      tags:
+        - content-update
+      summary: Update project content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentItem'
+      responses:
+        '200':
+          description: Content updated successfully.
+        '400':
+          $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ProjectInfo:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Information about a project
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+    Tag:
+      type: object
+      properties:
+        tag:
+          type: string
+          description: Unique identifier for the tag.
+        description:
+          type: string
+          description: Description of what the tag represents.
+      required:
+        - tag
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ContentItem:
+      type: object
+      properties:
+        language:
+          type: string
+          description: Programming language of the content.
+        type:
+          type: string
+          description: Type of the content (e.g., class, method, snippet).
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the content.
+        location:
+          type: string
+          description: File location in the project.
+        content:
+          type: string
+          description: Actual content (code, documentation, etc.).
+      required:
+        - language
+        - type
+        - tags
+        - location
+        - content
+  responses:
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

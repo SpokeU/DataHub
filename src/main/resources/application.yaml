@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: DataHub
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    password: postgres
+    username: postgres
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:database/schema.sql
+      data-locations: classpath:database/data.sql
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+hibernate:
+  types:
+    print:
+      banner: 'false'

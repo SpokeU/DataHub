@@ -1,0 +1,6 @@
+title: Connection
+allOf:
+  - properties:
+      id:
+        type: number
+  - $ref: "./ConnectionRequest.yaml"

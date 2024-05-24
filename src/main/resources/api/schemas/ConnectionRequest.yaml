@@ -1,0 +1,10 @@
+title: Connection Request
+type: object
+properties:
+  name:
+    type: string
+  type:
+    $ref: "./ConnectionType.yaml"
+  details:
+    oneOf:
+      - $ref: "./RelationalConnectionDetails.yaml"

@@ -1,0 +1,10 @@
+title: Connection test response
+description: Contains result of testing the connection. If success=false the msssage is provided
+type: object
+properties:
+  success:
+    type: boolean
+    example: false
+  message:
+    type: string
+    example: Invalid user name or password

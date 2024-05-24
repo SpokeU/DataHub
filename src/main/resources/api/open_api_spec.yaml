@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: DataHub API
+  description: |-
+    The DataHub API created to serve DataHub platform which is main concept is to enable users to manage database connections, execute queries, share queries and results.   
+    This API supports multiple relational databases, such as PostgreSQL and MySQL, and facilitates tasks including:
+    
+    Key ares of this API:
+    - **Connection Management**: Create, update, delete, list and test database connections.
+    - **Query Management**: Write, save, edit, delete, and list queries with parameterization support and compatibility for various database-specific languages.
+    - **Query Execution**: Execute stored queries and display results in formats like tables and JSON.
+    
+    TODO Use Cases:
+
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080/api/v1'
+paths:
+  /connections:
+    get:
+      operationId: getConnections
+      summary: List connections
+      description: Returns a list of available connections that is available for a user
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/Connection.yaml"
+    post:
+      operationId: createConnection
+      summary: Create connection
+      description: This operation will create new connection with specified details so later it can be used to run queries
+      requestBody:
+        description: Connections with details
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/ConnectionRequest.yaml"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/Connection.yaml"
+    put:
+      summary: Update connection
+      description: Does not do partial update. This will replace all fields with provided ones
+      operationId: updateConnection
+      requestBody:
+        description: Connections with all details to be updated.
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas/ConnectionRequest.yaml"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/Connection.yaml"
+    delete:
+      summary: Delete connection
+      description: Deletes a connection with specified id
+      operationId: deleteConnection
+      responses:
+        200:
+          description: Connection successfully deleted
+  /connections/{connectionId}/test:
+    parameters:
+      - name: connectionId
+        in: path
+        description: ID of connection to be tested
+        required: true
+        schema:
+          type: integer
+          format: int64
+    post:
+      summary: Test connection
+      description: Tests the connectivity and return status
+      operationId: testConnection
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "./schemas/ConnectionTestResponse.yaml"
+  /connections/types:
+    get:
+      summary: Connection types
+      description: Returns supported connection types like POSTGRES, MONGO etc
+      operationId: getConnectionTypes
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/ConnectionTypeResponse.yaml"
+  /connections/{connectionType}/parameters:
+    get:
+      summary: Connection parameters
+      description: Returns list of input fields that needs to be filled to create a connection
+      operationId: getConnectionTypeParameters
+      parameters:
+        - name: connectionType
+          in: path
+          description: Connection type
+          required: true
+          schema:
+            $ref: "./schemas/ConnectionType.yaml"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "./schemas/InputField.yaml"

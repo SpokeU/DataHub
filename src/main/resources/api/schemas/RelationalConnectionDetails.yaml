@@ -1,0 +1,17 @@
+type: object
+properties:
+  host:
+    type: string
+    example: localhost
+  port:
+    type: number
+    example: 15432
+  database:
+    type: string
+    example: users_db
+  username:
+    type: string
+    example: my_user
+  password:
+    type: string
+    example: my_password

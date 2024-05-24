@@ -1,0 +1,15 @@
+title: Connection type response
+description: TODO
+type: object
+properties:
+  name:
+    type: string
+    example: Postgres
+  type:
+    $ref: "./ConnectionType.yaml"
+  description:
+    type: string
+    example: User Standard postgres connection
+  logoUrl:
+    type: string
+    example: https://localhost:8080/resources/logos/posgres_icon.url
