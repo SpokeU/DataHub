@@ -10,7 +10,13 @@ info:
     - **Query Management**: Write, save, edit, delete, and list queries with parameterization support and compatibility for various database-specific languages.
     - **Query Execution**: Execute stored queries and display results in formats like tables and JSON.
     
-    TODO Use Cases:
+    Use Cases:  
+    #### Create connection
+    - [Connection types](#operation/getConnectionTypes) - Get supported connection types (POSTGRES, MONGO)
+    - [Connection parameters](#getConnectionTypeParameters) - Get fields required for creating connection of selected type (for example POSTGRES)
+    - [Create connection](#createConnection)
+    - [Test connection](#testConnection) - Check if connection can be established
+    
 
   version: 1.0.0
 servers:
@@ -19,6 +25,8 @@ paths:
   /connections:
     get:
       operationId: getConnections
+      tags:
+        - connections
       summary: List connections
       description: Returns a list of available connections that is available for a user
       responses:
@@ -30,6 +38,8 @@ paths:
                 $ref: "./schemas/Connection.yaml"
     post:
       operationId: createConnection
+      tags:
+        - connections
       summary: Create connection
       description: This operation will create new connection with specified details so later it can be used to run queries
       requestBody:
@@ -49,6 +59,8 @@ paths:
       summary: Update connection
       description: Does not do partial update. This will replace all fields with provided ones
       operationId: updateConnection
+      tags:
+        - connections
       requestBody:
         description: Connections with all details to be updated.
         content:
@@ -66,6 +78,8 @@ paths:
       summary: Delete connection
       description: Deletes a connection with specified id
       operationId: deleteConnection
+      tags:
+        - connections
       responses:
         200:
           description: Connection successfully deleted
@@ -94,6 +108,8 @@ paths:
       summary: Connection types
       description: Returns supported connection types like POSTGRES, MONGO etc
       operationId: getConnectionTypes
+      tags:
+        - connections
       responses:
         200:
           description: Success
@@ -108,6 +124,8 @@ paths:
       summary: Connection parameters
       description: Returns list of input fields that needs to be filled to create a connection
       operationId: getConnectionTypeParameters
+      tags:
+        - connections
       parameters:
         - name: connectionType
           in: path

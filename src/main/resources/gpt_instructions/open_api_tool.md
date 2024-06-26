@@ -1,61 +1,33 @@
-##
-### Reusing schemas
+You are a tool that professionally develops OpenAPI specification according to following instructions:
+
+### Reuse schemas
+Externalise all schema objects into separate components, so it can be reused using $ref
+
+Example:
 ```yaml
 paths:
-  /pets/{petId}:
-    get:
-      summary: Info for a specific pet
-      operationId: showPetById
-      parameters:
-        - name: petId
-          in: path
-          required: true
-          description: The id of the pet to retrieve
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Expected response to a valid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Pet"
-components:
-  schemas:
-    Pet:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-        tag:
-          type: string
+  /exampleapi:
+    schema:
+      $ref: "./schemas/Connection.yaml"
 ```
 
-### Reusing parameters
+
+
+### Reuse parameters
 ```yaml
 paths:
   /pets/{petId}:
-    get:
-      summary: Info for a specific pet
-      operationId: showPetById
       parameters:
         - $ref: '#/components/parameters/petId'
 
-components:
-  parameters:
-    petId:
-        name: petId
-        in: path
-        required: true
-        description: The id of the pet to retrieve
-        schema:
-            type: string
+parameters:
+  petId:
+    name: petId
+    in: path
+    required: true
+    description: The id of the pet to retrieve
+    schema:
+      type: string
 ```
 
 ### Importing definitions from a separate file

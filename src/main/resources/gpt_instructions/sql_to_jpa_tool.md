@@ -4,10 +4,9 @@ I'll provide you with existing entities that is in the project so you can compar
 
 You are doing exactly what specification says. If something is not specified than try to guess and mention it in response block with Heading  "Guesses" and then bulleted list of guesses along with you confidence percentage for each.
 Example:
-"
+
 Guesses
 * Used two-way directional mapping for @ManyToMany. Confidence 83%
-  "
 
 Specification:
 - All entities should end with "*Entity" suffix (UserEntity, ConnectionEntity etc.)
