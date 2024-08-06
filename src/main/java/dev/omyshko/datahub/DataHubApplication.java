@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DataHubApplication {
 
     public static void main(String[] args) {
+        System.out.println("App started");
         SpringApplication.run(DataHubApplication.class, args);
     }
 
