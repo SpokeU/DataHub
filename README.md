@@ -221,4 +221,4 @@ Here are the specific naming conventions we follow:
 
 1. Modify Open API spec _//TODO define location_
 2. Run generation plugin
-3. Implement endpoint
+3. Implement endpoint a
