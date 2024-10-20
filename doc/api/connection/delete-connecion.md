@@ -1,3 +1,13 @@
+#### Meta info
+Environment: PROD
+
+
+<head>
+    <div style="display: flex; justify-content: right;">
+        <div style="background-color: green; padding: 5px">PROD</div>
+    </div>    
+</head>
+
 ### Delete connection
 Deletes a connection with specified id
 

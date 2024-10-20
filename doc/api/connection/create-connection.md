@@ -1,13 +1,3 @@
-#### Meta info
-Environment: PROD
-
-
-<head>
-    <div style="display: flex; justify-content: right;">
-        <div style="background-color: green; padding: 5px">PROD</div>
-    </div>    
-</head>
-
 ### Create connection
 
 Creates new connection, so later it can be used to run queries
