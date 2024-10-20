@@ -1,0 +1,11 @@
+type: object
+properties:
+  name:
+    type: string
+    example: "host"
+  type:
+    type: string
+    example: "text"
+  required:
+    type: boolean
+    example: true

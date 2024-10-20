@@ -1,0 +1,2 @@
+type: string
+enum: [ "PG", "MY_SQL" ]

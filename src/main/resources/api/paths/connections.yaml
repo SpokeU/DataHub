@@ -1,0 +1,60 @@
+get:
+  operationId: getConnections
+  tags:
+    - connections
+  summary: List connections
+  description: Returns a list of available connections that is available for a user
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Connection.yaml"
+post:
+  operationId: createConnection
+  tags:
+    - connections
+  summary: Create connection
+  description: This operation will create new connection with specified details so later it can be used to run queries
+  requestBody:
+    description: Connections with details
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/ConnectionRequest.yaml"
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Connection.yaml"
+put:
+  summary: Update connection
+  description: Does not do partial update. This will replace all fields with provided ones
+  operationId: updateConnection
+  tags:
+    - connections
+  requestBody:
+    description: Connections with all details to be updated.
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/ConnectionRequest.yaml"
+  responses:
+    200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Connection.yaml"
+delete:
+  summary: Delete connection
+  description: Deletes a connection with specified id
+  operationId: deleteConnection
+  tags:
+    - connections
+  responses:
+    200:
+      description: Connection successfully deleted

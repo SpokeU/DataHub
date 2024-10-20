@@ -1,0 +1,5 @@
+- Provide `../api-use-cases/connection-test.md` use case to LLM
+- LLM should query OpenApi spec file to do the update
+  - `/discovery?project=DataHub&component=OpenApi&domain=connection`
+- LLM should do partial file update because of how OpenApi spec is formatted
+  - Define format Range from:Line to:Line - discovery should return line numbers as well

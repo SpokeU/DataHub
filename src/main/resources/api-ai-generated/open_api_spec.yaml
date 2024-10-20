@@ -1,0 +1,67 @@
+openapi: 3.0.1
+info:
+  title: DataHub API
+  description: API for managing database connections and queries in DataHub
+  version: 1.0.0
+paths:
+  /connections:
+    $ref: './paths/connections.yaml'
+  /connections/types:
+    $ref: './paths/connections_types.yaml'
+  /connections/{type}/parameters:
+    $ref: './paths/connections_{type}_parameters.yaml'
+components:
+  parameters:
+    connectionId:
+      $ref: './parameters/path/connectionId.yaml'
+    connectionType:
+      $ref: './parameters/path/connectionType.yaml'
+  examples:
+    connectionTypesExample:
+      value:
+        - type: "PG"
+          name: "Postgres"
+          description: "Standard postgres connection"
+          logoUrl: "/logos/posgres_icon.url"
+        - type: "MY_SQL"
+          name: "MySQL"
+          description: "Standard MySql connection"
+          logoUrl: "/logos/posgres_icon.url"
+    postgresParametersExample:
+      value:
+        - name: "host"
+          type: "text"
+          required: true
+        - name: "port"
+          type: "number"
+          required: true
+        - name: "database"
+          type: "text"
+          required: true
+        - name: "username"
+          type: "text"
+          required: true
+        - name: "password"
+          type: "password"
+          required: true
+    createConnectionRequestExample:
+      value:
+        name: "User DB"
+        type: "PG"
+        details:
+          host: "localhost"
+          port: 15432
+          database: "users_db"
+          username: "my_user"
+          password: "my_password"
+    createConnectionResponseExample:
+      value:
+        id: 1
+        name: "User DB"
+        type: "PG"
+        details:
+          host: "localhost"
+          port: 15432
+          database: "users_db"
+          username: "my_user"
+          password: "my_password"

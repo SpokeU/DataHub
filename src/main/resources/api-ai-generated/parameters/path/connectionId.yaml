@@ -1,0 +1,7 @@
+name: connectionId
+in: path
+description: ID of the connection
+required: true
+schema:
+  type: integer
+  format: int64

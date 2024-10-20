@@ -1,26 +1,17 @@
-## Use cases
-
 ### Create connection
-Some description
-- [Connection types](#get-connection-types) - Get supported connection types (POSTGRES, MONGO)
-- [Connection parameters](#connection-type-parameters) - Get fields required for creating connection of selected type (
-  for example POSTGRES)
-- [Create connection](#create-connection-1)
-- [Test connection](#connection-test-result-successful) - Check if connection can be established
-
-
-
-
-## Operations
+1. [Connection types](#get-connection-types) - Get supported connection types (POSTGRES, MY_SQL)
+2. [Connection parameters](#connection-type-parameters) - Get fields required for creating connection of selected type ([Postgres](#postgres-parameters))
+3. [Create connection](#create-connection-1) - ([Postgres](#postgres-connection-creation))
 
 ### Get connection types
+**GET** `/connections/types`
 
-<span style="color:blue; font-weight:700; font-size:16px">GET</span> `/connections/types`
-
+###### Available connection types
+**Response**
 ```json5
 [
   {
-    "type": "PG",
+    "type": "PG",  //ConnectionTypeEnum
     "name": "Postgres",
     "description": "Standard postgres connection",
     "logoUrl": "/logos/posgres_icon.url"
@@ -34,18 +25,19 @@ Some description
 ]
 ```
 
-### Connection type parameters
+---
+### Connection parameters
 Returns list of input fields that needs to be filled to create a connection
 
-**GET** `/connections/{type}/parameters`
+**GET** `/connections/{type}/parameters`  
+{type} - 'type' field returned from [Connection types](#get-connection-types)
 
+###### Postgres connection type parameters
 **Response**
-
-###### Postgres parameters
 
 ```json5
 [
-  {
+  { //InputField
     "name": "host",
     "type": "text",
     "required": true
@@ -74,20 +66,18 @@ Returns list of input fields that needs to be filled to create a connection
 ```
 
 ---
-
 ### Create connection
 Creates new connection, so later it can be used to run queries
 
 **POST** `/connections`
 
+###### Postgres connection creation
 **Request**
-
-###### Postgres connection
 
 ```json5
 {
   "name": "User DB",
-  "type": "PG",
+  "type": "PG", //ConnectionTypeEnum
   "details": {
     "host": "localhost",
     "port": 15432,
@@ -104,7 +94,7 @@ Creates new connection, so later it can be used to run queries
 {
   "id": 1,
   "name": "User DB",
-  "type": "PG",
+  "type": "PG", //ConnectionTypeEnum
   "details": {
     "host": "localhost",
     "port": 15432,
@@ -114,31 +104,3 @@ Creates new connection, so later it can be used to run queries
   }
 }
 ```
-
-### Test connection
-Tests the connectivity and return status
-
-**POST** `/connections/{id}/test`
-
-**Request**
-``
-
-**Response**
-
-###### Connection test result successful
-```json
-{
-  "success": true,
-  "message": "Connected successfully"
-}
-
-```
-
-###### Connection test result failure
-```json
-{
-  "success": false,
-  "message": "Invalid user name or password"
-}
-```
-

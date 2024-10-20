@@ -1,0 +1,14 @@
+get:
+  operationId: getConnectionTypes
+  tags:
+    - connections
+  summary: Get supported connection types
+  responses:
+    200:
+      description: A list of supported connection types
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/ConnectionTypeEnum.yaml"

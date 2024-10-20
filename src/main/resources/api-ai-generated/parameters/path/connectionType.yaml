@@ -1,0 +1,6 @@
+name: type
+in: path
+description: Type of the connection
+required: true
+schema:
+  $ref: '../../schemas/ConnectionTypeEnum.yaml'

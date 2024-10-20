@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: DataHub API
+  description: API for managing database connections and executing queries.
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /connections/types:
+    get:
+      summary: Get supported connection types
+      operationId: getConnectionTypes
+      responses:
+        '200':
+          description: A list of supported connection types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: PG
+                    name:
+                      type: string
+                      example: Postgres
+                    description:
+                      type: string
+                      example: Standard postgres connection
+                    logoUrl:
+                      type: string
+                      example: /logos/posgres_icon.url
+
+  /connections/{type}/parameters:
+    get:
+      summary: Get fields required for creating a connection of selected type
+      operationId: getConnectionTypeParameters
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            example: PG
+      responses:
+        '200':
+          description: A list of parameters required for the connection type
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: host
+                    type:
+                      type: string
+                      example: text
+                    required:
+                      type: boolean
+                      example: true
+
+  /connections:
+    post:
+      summary: Create a new database connection
+      operationId: createConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: User DB
+                type:
+                  type: string
+                  example: PG
+                details:
+                  type: object
+                  properties:
+                    host:
+                      type: string
+                      example: localhost
+                    port:
+                      type: integer
+                      example: 15432
+                    database:
+                      type: string
+                      example: users_db
+                    username:
+                      type: string
+                      example: my_user
+                    password:
+                      type: string
+                      example: my_password
+      responses:
+        '200':
+          description: The created connection
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: User DB
+                  type:
+                    type: string
+                    example: PG
+                  details:
+                    type: object
+                    properties:
+                      host:
+                        type: string
+                        example: localhost
+                      port:
+                        type: integer
+                        example: 15432
+                      database:
+                        type: string
+                        example: users_db
+                      username:
+                        type: string
+                        example: my_user
+                      password:
+                        type: string
+                        example: my_password
+
+  /connections/{id}/test:
+    post:
+      summary: Test the connectivity of a created connection
+      operationId: testConnection
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: The result of the connection test
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      success:
+                        type: boolean
+                        example: true
+                      message:
+                        type: string
+                        example: Connected successfully
+                  - type: object
+                    properties:
+                      success:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+                        example: Invalid user name or password

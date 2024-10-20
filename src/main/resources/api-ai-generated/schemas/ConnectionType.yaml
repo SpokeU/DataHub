@@ -1,0 +1,18 @@
+type: object
+properties:
+  type:
+    $ref: './ConnectionTypeEnum.yaml'
+  name:
+    type: string
+    example: Postgres
+  description:
+    type: string
+    example: Standard postgres connection
+  logoUrl:
+    type: string
+    example: /logos/postgres_icon.url
+required:
+  - type
+  - name
+  - description
+  - logoUrl

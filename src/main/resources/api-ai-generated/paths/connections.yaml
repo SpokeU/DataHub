@@ -1,0 +1,17 @@
+post:
+  operationId: createConnection
+  tags:
+    - connections
+  summary: Create a new database connection
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Connection.yaml"
+  responses:
+    201:
+      description: Connection created successfully
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas/Connection.yaml"

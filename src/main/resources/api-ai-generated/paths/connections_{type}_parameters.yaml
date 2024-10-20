@@ -1,0 +1,16 @@
+get:
+  operationId: getConnectionTypeParameters
+  tags:
+    - connections
+  summary: Get parameters required for creating a connection of the selected type
+  parameters:
+    - $ref: '../parameters/path/connectionType.yaml'
+  responses:
+    200:
+      description: A list of input fields required for creating the connection
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/InputField.yaml"
